@@ -1,33 +1,22 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import express from 'express';
-import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import log from './logger/indexLogger'
+import config from 'config'
+import connect from "./Utils/connect"
+import logger from "./Utils/logger"
+import routes from "./routes"
+
+const port = config.get("port") as number;
+const host = config.get("host") as string;
+
 const app = express();
 
-//routes
-app.get('/', (req, res) => {
-	res.send('Hello World')
-})
 
-
-//middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
 
+app.listen(port, host, async () => {
+    logger.info(`Server listening at http://${host}:${port}`)
 
-//database
-import './config/database'
+    await connect()
 
-
-//server listener
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-    log.info("Server is running on port", PORT)
-})
+    routes(app)
+});
