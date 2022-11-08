@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
 import { createSession } from "../service/session.service";
 import { validatePassword } from "../service/user.service";
+import config from 'config'
+import { signJwt } from "../Utils/jwt.utils";
+import { findSessions } from "../service/session.service";
 
 
-export async function createUsesrSessionHandler(req: Request, res: Response){
+export async function createUserSessionHandler(req: Request, res: Response){
 
     //Validate the user's password
 
@@ -14,10 +17,31 @@ export async function createUsesrSessionHandler(req: Request, res: Response){
     }
 
     //create a session
-    const session = createSession(user._id, req.get("user-agent") || "")
+    const session = await createSession(user._id, req.get("user-agent") || "")
 
     //create access token
     
+    const accessToken = signJwt(
+        { ...user, session: session.user?._id},
+        { expiresIn: config.get('accessTokenTtl') } //lives for 15 min
+    );
+    //create a refresh token
+    const refreshToken = signJwt(
+        { ...user, session: session.user?._id},
+        { expiresIn: config.get('accessTokenTtl') } //lives for 15 min
+    );
+
+    //return access & refresh tokens
+        
+    return res.send({accessToken, refreshToken});
 
 
+}
+
+export async function getuserSessionHandler(req: Request, res: Response){
+    const user = res.locals.user._id
+
+    const session = await findSessions({user: createUserSessionHandler, valid: true})
+
+    return res.send(session);
 }

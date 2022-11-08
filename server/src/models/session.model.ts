@@ -5,6 +5,7 @@ import { UserDocument } from "./user.model";
 
 export interface SchemaDocument extends mongoose.Document {
     user: UserDocument['_id'];
+    session: UserDocument['_id'];
     valid: string;
     password: boolean;
     userAgent: string;
