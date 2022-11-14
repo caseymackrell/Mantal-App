@@ -1,6 +1,6 @@
 import { Express, Request, Response } from "express";
 import { create } from "lodash";
-import { createUserSessionHandler, getuserSessionHandler } from "./controller/session.controller";
+import { createUserSessionHandler, deleteSessionHandler, getuserSessionHandler } from "./controller/session.controller";
 import { createUserHandler } from "./controller/user.controller";
 import validateResource from './middleware/validateResource'
 import { createSessionSchema } from "./schema/session.schema";
@@ -21,6 +21,7 @@ function routes(app: Express) {
     );
 
     app.get('/api/sessions', requireUser, getuserSessionHandler)
+    app.delete('/api/sessions', requireUser, deleteSessionHandler)
 }
 
 

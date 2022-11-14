@@ -1,17 +1,14 @@
 import { Request, Response } from "express";
-import { createSession } from "../service/session.service";
+import { createSession, findSessions, updateSession } from "../service/session.service";
 import { validatePassword } from "../service/user.service";
 import config from 'config'
 import { signJwt } from "../Utils/jwt.utils";
-import { findSessions } from "../service/session.service";
-
 
 export async function createUserSessionHandler(req: Request, res: Response){
 
     //Validate the user's password
 
     const user = await validatePassword(req.body)
-
     if(!user){
         return res.status(401.).send("Invalid email or password")
     }
@@ -22,13 +19,15 @@ export async function createUserSessionHandler(req: Request, res: Response){
     //create access token
     
     const accessToken = signJwt(
-        { ...user, session: session.user?._id},
+        { ...user, session: session._id},
+        "accessTokenPrivateKey",
         { expiresIn: config.get('accessTokenTtl') } //lives for 15 min
     );
     //create a refresh token
     const refreshToken = signJwt(
         { ...user, session: session.user?._id},
-        { expiresIn: config.get('accessTokenTtl') } //lives for 15 min
+        "refreshTokenPrivateKey",
+        { expiresIn: config.get('refreshTokenTtl') } //lives for 15 min
     );
 
     //return access & refresh tokens
@@ -39,9 +38,21 @@ export async function createUserSessionHandler(req: Request, res: Response){
 }
 
 export async function getuserSessionHandler(req: Request, res: Response){
-    const user = res.locals.user._id
+    const userId = res.locals.user._id
 
-    const session = await findSessions({user: createUserSessionHandler, valid: true})
+    const session = await findSessions({user: userId, valid: true})
 
     return res.send(session);
+}
+
+
+export async function deleteSessionHandler(req: Request, res: Response){
+    const sessionId = res.locals.user.session;
+
+    await updateSession({_id: sessionId}, {valid: false})
+
+    return res.send({
+        accessToken: null,
+        refreshToken: null,
+    });
 }
