@@ -1,6 +1,6 @@
 import { FilterQuery, UpdateQuery } from "mongoose";
 import sessionModel, {SessionDocument} from "../models/session.model";
-import { verifyJwt, signJwt } from "../Utils/jwt.utils";
+import { encodeJwtToken, decodeJwtToken, TokenTypes } from "../Utils/jwt.utils";
 import { get } from "lodash";
 import { findUser } from "./user.service";
 import config from 'config'
@@ -23,9 +23,8 @@ export async function updateSession(query: FilterQuery<SessionDocument>, update:
     return sessionModel.updateOne(query, update)
 }
 
-
-export async function reIsssueAccessToken({refreshToken}:{ refreshToken: string}){
-    const {decoded} = verifyJwt(refreshToken, "refreshTokenPublicKey")
+export async function reIssueAccessToken({ refreshToken }: { refreshToken: string }) {
+    const decoded = await decodeJwtToken(refreshToken, TokenTypes.REFRESH)
 
     if(!decoded || !get(decoded, 'session')) return false
 
@@ -36,10 +35,10 @@ export async function reIsssueAccessToken({refreshToken}:{ refreshToken: string}
 
     if(!user) return false
 
-    const accessToken = signJwt(
+    const accessToken = encodeJwtToken(
         { ...user, session: session.user?._id},
-        { expiresIn: config.get('accessTokenTtl') } //lives for 15 min
-    );
+        TokenTypes.AUTH,
+    )
 
     return accessToken;
 }
