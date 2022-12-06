@@ -10,7 +10,7 @@ export default function App() {
   let notloggedIn
   let user = notloggedIn
 
-  if (user !== loggedIn) {
+  if (user === loggedIn) {
   return (
     <NavigationContainer>
     <Navigator/>

@@ -11,7 +11,7 @@ const RegisterScreen = ({navigation}) => {
 
   const handleLogin = () => {
     alert(username + " " + email + " " + password + " " + confirmPassword)
-    navigation.navigate("Home")
+    navigation.navigate("VerifyOTP")
     setUsername("")
     setEmail("")
     setPassword("")

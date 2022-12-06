@@ -1,50 +1,103 @@
-import { Express, Request, Response } from "express";
-import { create } from "lodash";
-import { createUserSessionHandler, deleteSessionHandler, getuserSessionHandler } from "./controller/session.controller";
-import { createUserHandler } from "./controller/user.controller";
-import validateResource from './middleware/validateResource'
-import { createSessionSchema } from "./schema/session.schema";
-import { createUserSchema } from "./schema/user.schema";
-import  requireUser  from "./middleware/requireUser";
-import {createPostSchema, updatePostSchema, getPostSchema, deletePostSchema} from "./schema/post.schema"
-import {createPostHandler, deletePostHandler, getPostHandler, updatePostHandler} from "./controller/post.controller"
+import {
+	Express, Request, Response, NextFunction,
+} from 'express'
+import config from 'config'
+import twilio from 'twilio'
+import UserModel from './models/user.model'
+import { encodeJwtToken, decodeJwtToken, TokenTypes } from './Utils/jwt.utils'
+import { AuthenticatedRequest } from '../types'
 
+const client = twilio(config.get('accountSID'), config.get('authToken'))
 
-function routes(app: Express) {
-    app.get('/', (req, res) => {
-        return res.send("Hello World");
-    })
-    
-    app.get('/healthcheck', (req:Request, res:Response) => {
-        res.sendStatus(200)
-    })
-
-    app.post('/api/users', validateResource(createUserSchema), createUserHandler);
-
-    app.post('/api/sessions', 
-        validateResource(createSessionSchema), 
-        createUserSessionHandler
-    );
-
-    app.get('/api/sessions/', requireUser, getuserSessionHandler)
-    app.delete('/api/sessions', requireUser, deleteSessionHandler)
-
-
-    app.post('/api/post', [requireUser, validateResource(createPostSchema)],
-    createPostHandler)
-
-    app.put('/api/post/:postId', [requireUser, validateResource(updatePostSchema)],
-    updatePostHandler)
-
-    app.get('/api/post/:postId', validateResource(getPostSchema),
-    getPostHandler)
-
-    app.delete('/api/post/:postId', [requireUser, validateResource(deletePostSchema)],
-    deletePostHandler)
+const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+	let token = req.headers.authorization || ''
+	token = token.slice(7, token.length)
+	try {
+		const data = await decodeJwtToken(token, TokenTypes.AUTH);
+		(req as AuthenticatedRequest).user = data
+		return next()
+	} catch (error) {
+		return res.status(401).send({ error: 'Unauthorized' })
+	}
 }
 
+function routes(app: Express) {
+	// Unauthenticated routes
 
+	app.get('/', (req, res) => res.sendStatus(200))
 
+	app.post('/login', async (req: Request, res: Response) => {
+		try {
+			const phone = req.body.phone
+			await client.verify.v2.services(config.get('twilioVerifySid'))
+				.verifications
+				.create({ to: phone, channel: 'sms' })
+			return res.status(200).send({ phone })
+		} catch (error) {
+			console.error(error)
+			return res.status(500).send({ error })
+		}
+	})
 
+	app.post('/login/verify', async (req: Request, res: Response) => {
+		try {
+			const { phone, otp } = req.body
+			const { status } = await client.verify.v2.services(config.get('twilioVerifySid'))
+				.verificationChecks
+				.create({ to: phone, code: otp })
+			if (status !== 'approved') {
+				return res.status(400).send({ error: 'Invalid OTP' })
+			} else {
+				const existing = await UserModel.findOne({ phone })
+				if (existing) {
+					existing.lastLogin = new Date()
+					await existing.save()
+				} else {
+					await UserModel.create({
+						phone,
+						lastLogin: new Date(),
+					})
+				}
+				return res.status(200).send({
+					token: await encodeJwtToken({ phone }, TokenTypes.AUTH),
+				})
+			}
+		} catch (error) {
+			console.error(error)
+			return res.status(500).send({ error })
+		}
+	})
 
-export default routes;
+	// Authenticated routes
+	app.use(authMiddleware)
+
+	app.put('/user', async (req: Request, res: Response) => {
+		try {
+			const { user, body } = req as AuthenticatedRequest
+			const existing = await UserModel
+				.findOne({ phone: user.phone })
+			if (existing) {
+				existing.username = body.username
+				await existing.save()
+				return res.status(200).send(existing)
+			}
+		} catch (error) {
+			console.error(error)
+			return res.status(500).send({ error })
+		}
+	})
+
+	app.get('/user', async (req: Request, res: Response) => {
+		try {
+			const { user } = req as AuthenticatedRequest
+			const existing = await UserModel
+				.findOne({ phone: user.phone })
+			return res.status(200).send(existing)
+		} catch (error) {
+			console.error(error)
+			return res.status(500).send({ error })
+		}
+	})
+}
+
+export default routes

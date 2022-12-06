@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import * as jwt from 'jsonwebtoken'
-import config from "config";
+import config from 'config'
 
 export const JWT_SECRETS: Record<TokenTypes, string> = {
 	auth: config.get<string>('authTokenSecret'),

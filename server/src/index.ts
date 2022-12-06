@@ -1,25 +1,25 @@
-import express from 'express';
+import express from 'express'
 import config from 'config'
-import connect from "./Utils/connect"
-import logger from "./Utils/logger"
-import routes from "./routes"
-import deserializedUser from './middleware/deserializedUser'
+import connect from './Utils/connect'
+import logger from './Utils/logger'
+import routes from './routes'
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
 
 (async () => {
+	await connect()
 
-    await connect()
+	const port = config.get('port') as number
+	const host = config.get('host') as string
 
-    const port = config.get("port") as number;
-    const host = config.get("host") as string;
+	const app = express()
 
-    const app = express();
-
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
-    app.use(deserializedUser);
-    routes(app);
-    app.listen(port, host, async () => {
-        logger.info(`Server listening at http://${host}:${port}`)
-    });
-
+	app.use(express.json())
+	app.use(cookieParser())
+	app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+	app.use(express.urlencoded({ extended: false }))
+	routes(app)
+	app.listen(port, host, async () => {
+		logger.info(`Server listening at http://${host}:${port}`)
+	})
 })()

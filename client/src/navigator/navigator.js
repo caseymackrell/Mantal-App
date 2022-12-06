@@ -5,12 +5,10 @@ import RegisterScreen from '../screens/register/register';
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import HomeScreen from '../screens/home/home';
-import ExploreScreen from '../screens/explore/explore';
-import MessagesScreen from '../screens/messages/message';
 import ProfileScreen from '../screens/profile/profile';
-import CalendarScreen from '../screens/calender/calender';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Entypo, FontAwesome, Ionicons } from '@expo/vector-icons'; 
+import StartWorkoutScreen from '../screens/startworkout/startworkout';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,14 +27,9 @@ export default function Navigator() {
                     iconName = focused
                       ? 'ios-home'
                       : 'ios-home';
-                  } else if (route.name === 'Explore') {
-                    iconName = focused ? 'search' : 'search';
-                  }
-                   else if (route.name === 'Calendar') {
-                    iconName = focused ? 'calendar' : 'calendar';
-                  }
-                    else if (route.name === 'Message') {
-                    iconName = focused ? 'chatbox' : 'chatbox';
+                  } else if (route.name === 'Start Workout') {
+                    iconName = focused ? 'barbell-sharp' : 'barbell-sharp';
+                    
                   }
                     else{
                         iconName = focused ? 'person-sharp' : 'person-sharp';
@@ -54,16 +47,8 @@ export default function Navigator() {
                 component={HomeScreen}
                 />
                 <Tab.Screen
-                name = "Explore"
-                component={ExploreScreen}
-                />
-                <Tab.Screen
-                name = "Calendar"
-                component={CalendarScreen}
-                />
-                <Tab.Screen
-                name = "Message"
-                component={MessagesScreen}
+                name = "Start Workout"
+                component={StartWorkoutScreen}
                 />
                 <Tab.Screen
                 name = "Profile"

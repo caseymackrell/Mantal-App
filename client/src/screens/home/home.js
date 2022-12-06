@@ -7,26 +7,7 @@ let iconWidth
 const HomeScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.appContainer}>
-            <View style={styles.topNavContainer}>
-                <View style={styles.topNavBar}>
-                    <TouchableOpacity>
-                        <Entypo name="menu" size={30} color="black" />
-                        </TouchableOpacity>
-                    <TouchableOpacity 
-                    onPress={() => navigation.navigate("Register")}
-                    >
-                        <View style={styles.registerButton}>
-                        <Text style = {{textAlign: 'center', color: 'white', fontSize: 20}}>Log Out</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            </View>
 
-            <ScrollView>
-                <View style={styles.feedContainer}>
-                    <Text>f</Text>
-                </View>
-            </ScrollView>
         </SafeAreaView>
       );
 }

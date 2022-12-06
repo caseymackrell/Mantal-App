@@ -4,22 +4,22 @@ import { auth } from '../../../firebase';
 
 const LoginScreen = ({ navigation }) => {
     const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
+    const [phoneNumber, setPhoneNumber] = useState("")
     
 
     const handleChangeUsername = (text) => {
         setUsername(text)
       }
 
-      const handleChangePassword = (text) => {
-        setPassword(text)
+      const handleChangePhoneNumber = (text) => {
+        setPhoneNumber(text)
       }
 
       const handleSignUp = () => {
-        alert(username + " " + password)
-        navigation.navigate("Home")
+        alert(username + " " + phoneNumber)
+        navigation.navigate("VerifyNumber")
         setUsername("")
-        setPassword("")
+        setPhoneNumber("")
    
 
       // const handleSignUp = () =>{
@@ -36,15 +36,9 @@ const LoginScreen = ({ navigation }) => {
           <Image source={require('../../icons/mainLogo.png')}/>
           <View style={styles.textInputContainer}>
         <View style={styles.loginType}>
-          <TouchableOpacity
-          onPress={() => navigation.navigate("Register")}>
-            <View>
-              <Text style={{fontSize: 30, color: 'white'}}>SIGN UP</Text>
-            </View>
-          </TouchableOpacity>
           <TouchableOpacity>
-            <View style={{marginLeft: 15}}>
-              <Text style={{fontSize: 30, color: '#1499C3'}}>SIGN IN</Text>
+            <View>
+              <Text style={{fontSize: 30, color: 'white'}}>SIGN IN</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -60,9 +54,9 @@ const LoginScreen = ({ navigation }) => {
             </View>
             <View style={styles.textInput}>
               <TextInput 
-              placeholder='Password'
-              value={password}
-              onChangeText={handleChangePassword}
+              placeholder='Phone Number'
+              value={phoneNumber}
+              onChangeText={handleChangePhoneNumber}
               secureTextEntry={true}
               />
             </View>
