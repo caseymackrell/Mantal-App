@@ -1,25 +1,19 @@
-import express from 'express'
-import config from 'config'
-import connect from './Utils/connect'
-import logger from './Utils/logger'
-import routes from './routes'
-import cookieParser from 'cookie-parser'
-import cors from 'cors'
+require('dotenv').config()
+import logger from './utils/logger.util'
+import connectToDatabase from './services/db'
+import server from './services/server'
 
 (async () => {
-	await connect()
-
-	const port = config.get('port') as number
-	const host = config.get('host') as string
-
-	const app = express()
-
-	app.use(express.json())
-	app.use(cookieParser())
-	app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
-	app.use(express.urlencoded({ extended: false }))
-	routes(app)
-	app.listen(port, host, async () => {
-		logger.info(`Server listening at http://${host}:${port}`)
-	})
+	try {
+		// Setup database
+		await connectToDatabase()
+		// Start server
+		server.listen(process.env.PORT || 3000, () => {
+			if (process.env.NODE_ENV === 'development') {
+				logger.info(`[Listening] Local: http://${require('os').hostname()}:${process.env.PORT || 3000}`)
+			}
+		})
+	} catch (error) {
+		logger.error(error)
+	}
 })()

@@ -1,15 +1,12 @@
 /* eslint-disable no-unused-vars */
 import * as jwt from 'jsonwebtoken'
-import config from 'config'
 
 export const JWT_SECRETS: Record<TokenTypes, string> = {
-	auth: config.get<string>('authTokenSecret'),
-	refresh: config.get<string>('refreshTokenSecret'),
+	auth: process.env.JWT_SECRET || '',
 }
 
 export enum TokenTypes {
 	AUTH = 'auth',
-	REFRESH = 'refresh',
 }
 
 /**
