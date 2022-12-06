@@ -1,11 +1,8 @@
 import mongoose from 'mongoose'
-import config from 'config'
-import logger from './logger'
+import logger from '../../utils/logger.util'
 
-function connect() {
-	const dbUri = config.get('dbUri') as string
-
-	return mongoose.connect(dbUri)
+function connectToDatabase() {
+	return mongoose.connect(process.env.DB_URL || '')
 		.then(() => {
 			logger.info('Connected to DB')
 		}).catch((error) => {
@@ -14,4 +11,4 @@ function connect() {
 		})
 }
 
-export default connect
+export default connectToDatabase
