@@ -19,6 +19,9 @@ const userSchema = new mongoose.Schema({
 
 		{ type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPost' },
 	],
+	comments: [
+		{ type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPost' },
+	],
 	lastLogin: { type: Date, required: true },
 }, {
 	timestamps: true,
