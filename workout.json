@@ -1,0 +1,96 @@
+  {
+    "_id": "5d6ede6a0ba62570afcedd3a",
+    "workoutName": "Chest and Back",
+    "workoutDescription": "A hypertrophy based workout to tarket the chest and back",
+    "user": {   "_id": "5d6ede6a0ba62570afcehru7",
+	            "username":"cmackrell",
+	            "phone": "4436796378",
+	            "workouts": [],
+                "maxWeight": [{"benchPress": 225, "inclineBench": 200, "latPullDown": 150, "seatedRow": 200}],
+	            "lastLogin": 09-12-2001
+             },
+    "workout": [{
+                 "workoutGroup": [
+                    { "workoutSet":[
+                        "exercise": { "_id":"5d6ede6a0ba62570afcehhf7", "name": "benchPress", "musclesTargeted": ["chest", "triceps"], "level": "beginner", "equipment": "barbell"},
+                         "reps": 10,
+                        "weight": 135,
+                        "weightPercent": 0.6
+                       ],
+                       "workoutSet":[
+                        "exercise": { "_id":"5d6ede6a0ba62570afcehhf7", "name": "benchPress", "musclesTargeted": ["chest", "triceps"], "level": "beginner", "equipment": "barbell"},
+                         "reps": 8
+                        "weight": 185
+                        "weightPercent": 0.82
+                       ],
+                       "workoutSet":[
+                        "exercise": { "_id":"5d6ede6a0ba62570afcehhf7", "name": "benchPress", "musclesTargeted": ["chest", "triceps"], "level": "beginner", "equipment": "barbell"},
+                         "reps": 5
+                        "weight": 205
+                        "weightPercent": 0.91
+                       ]
+                    }
+                   ],
+                  [
+                    { "workoutSet": [
+                        "exercise": { "_id":"5d6ede6a0ba62570afcegg88", "name": "inclineBench", "musclesTargeted": ["chest", "triceps"], "level": "beginner", "equipment": "barbell"},
+                         "reps": 8
+                        "weight": 135
+                        "weightPercent": 0.7
+                       ],
+                       "workoutSet": [
+                        "exercise": { "_id":"5d6ede6a0ba62570afcegg88", "name": "inclineBench", "musclesTargeted": ["chest", "triceps"], "level": "beginner", "equipment": "barbell"},
+                         "reps": 8
+                        "weight": 135
+                        "weightPercent": 0.7
+                       ],
+                       "workoutSet":[
+                        "exercise": { "_id":"5d6ede6a0ba62570afcegg88", "name": "inclineBench", "musclesTargeted": ["chest", "triceps"], "level": "beginner", "equipment": "barbell"},
+                         "reps": 5
+                        "weight": 165
+                        "weightPercent": 0.82
+                       ]
+                    }
+                   ],
+                  [
+                    { "workoutSet": [
+                        "exercise": { "_id":"5d6ede6a0ba62570afceee99", "name": "latPullDown", "musclesTargeted": ["back"], "level": "beginner", "equipment": "machine"},
+                         "reps": 12
+                        "weight": 110
+                        "weightPercent": 0.73
+                       ],
+                       "workoutSet":[
+                        "exercise": { "_id":"5d6ede6a0ba62570afceee99", "name": "latPullDown", "musclesTargeted": ["back"], "level": "beginner", "equipment": "machine"},
+                         "reps": 8
+                        "weight": 125
+                        "weightPercent": 0.83
+                       ],
+                       "workoutSet":[
+                        "exercise": { "_id":"5d6ede6a0ba62570afceee99", "name": "latPullDown", "musclesTargeted": ["back"], "level": "beginner", "equipment": "machine"},
+                         "reps": 5
+                        "weight": 135
+                        "weightPercent": 0.9
+                       ]
+                    }
+                   ]
+                  [
+                    { "workoutSet": [
+                        "exercise": { "_id":"5d6ede6a0ba62570afcess44", "name": "seatedRow", "musclesTargeted": ["back"], "level": "beginner", "equipment": "machine"},
+                         "reps": 12
+                        "weight": 120
+                        "weightPercent": 0.6
+                       ],
+                       "workoutSet":[
+                        "exercise": { "_id":"5d6ede6a0ba62570afcess44", "name": "seatedRow", "musclesTargeted": ["back"], "level": "beginner", "equipment": "machine"},
+                         "reps": 8
+                        "weight": 145
+                        "weightPercent": 0.73
+                       ],
+                       "workoutSet":[
+                        "exercise": { "_id":"5d6ede6a0ba62570afcess44", "name": "seatedRow", "musclesTargeted": ["back"], "level": "beginner", "equipment": "machine"}
+                         "reps": 8
+                        "weight": 145
+                        "weightPercent": 0.73
+                       ]
+                    }
+                   ]

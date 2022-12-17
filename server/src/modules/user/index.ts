@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import { authMiddleware } from '../services/server/middleware/auth.middleware'
+import { authMiddleware } from '../../services/server/middleware/auth.middleware'
 import {
 	getUser, sendSmsCode, updateUser, verifySmsCode,
-} from './user/api/user.api'
+} from './api/user.api'
 
 export const userRouter = Router()
 

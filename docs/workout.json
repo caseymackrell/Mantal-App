@@ -1,0 +1,50 @@
+[
+	[
+		[
+			{ "exercise": "CURL", "reps": 8, "weight_percent": 0.5 },
+			{ "exercise": "ARNOLD_PRESS", "reps": 5, "weight_percent": 0.9 }
+		],
+		[
+			{ "exercise": "CURL", "reps": 10, "weight_percent": 0.7 },
+			{ "exercise": "ARNOLD_PRESS", "reps": 8, "weight_percent": 0.7 }
+		],
+		[
+			{ "exercise": "CURL", "reps": 12, "weight_percent": 0.9 },
+			{ "exercise": "ARNOLD_PRESS", "reps": 10, "weight_percent": 0.5 }
+		]
+	],
+	[
+		[
+			{ "exercise": "SQUAT", "reps": 10, "weight_percent": 0.4 }
+		],
+		[
+			{ "exercise": "SQUAT", "reps": 10, "weight_percent": 0.6 }
+		],
+		[
+			{ "exercise": "CURL", "reps": 10, "weight_percent": 0.8 }
+		],
+		[
+			{ "exercise": "CURL", "reps": 8, "weight_percent": 0.95 }
+		],
+		[
+			{ "exercise": "CURL", "reps": 8, "weight_percent": 0.95 }
+		]
+	],
+	[
+		[
+			{ "exercise": "LEG_RAISE", "reps": 20, "weight_percent": 0.6 },
+			{ "exercise": "DEAD_BUG", "reps": 20, "weight_percent": 0.6 },
+			{ "exercise": "AIR_BIKE", "seconds": 60 }
+		],
+		[
+			{ "exercise": "LEG_RAISE", "reps": 20, "weight_percent": 0.6 },
+			{ "exercise": "DEAD_BUG", "reps": 20, "weight_percent": 0.6 },
+			{ "exercise": "AIR_BIKE", "seconds": 60 }
+		]
+	],
+	[
+		[
+			{ "exercise": "RUN", "miles": 1 }
+		]
+	]
+]
