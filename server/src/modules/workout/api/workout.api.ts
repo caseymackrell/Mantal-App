@@ -1,12 +1,10 @@
 import { Request, Response } from 'express'
 import { Workout } from '../db/workout2.db'
 import UserModel from '../../user/db/user.db'
+import { getUser } from '../../user/api/user.api'
 
 export const createWorkout = async (req: Request, res: Response) => {
 	// find logged in user?
-	// UserModel.findById(req.id, (err: string | undefined, user: unknown) => {
-	// 	if (err) {throw new Error(err)}
-	// })
 
 	const newWorkout = new Workout(req.body)
 

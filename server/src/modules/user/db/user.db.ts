@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { WorkoutDocument } from '../../workout/db/workout.db'
+import { WorkoutDocument } from '../../workout/db/workout2.db'
 
 export interface UserDocument extends mongoose.Document {
     _id: string
