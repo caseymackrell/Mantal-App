@@ -7,7 +7,7 @@ export interface CommentDocument extends mongoose.Document {
 }
 const commentSchema = new mongoose.Schema({
 	_id: { type: mongoose.Types.ObjectId, required: true, auto: true },
-	user: { type: String, required: true },
+	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 	message: { type: String, required: true, index: true, unique: true },
 })
 

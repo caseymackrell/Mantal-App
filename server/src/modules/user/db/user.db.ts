@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { CommentDocument } from '../../comments/db/comments.db'
 import { WorkoutDocument } from '../../workout/db/workout2.db'
 
 export interface UserDocument extends mongoose.Document {
@@ -9,6 +10,9 @@ export interface UserDocument extends mongoose.Document {
     createdAt: Date;
     updatedAt: Date;
     workouts: WorkoutDocument;
+    comments: CommentDocument;
+    follower: Array<string>;
+    following: Array<string>;
 }
 
 const userSchema = new mongoose.Schema({
@@ -20,8 +24,10 @@ const userSchema = new mongoose.Schema({
 		{ type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPost' },
 	],
 	comments: [
-		{ type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPost' },
+		{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' },
 	],
+	followers: [{ type: Array<string> }],
+	follwing: [{ type: Array<string> }],
 	lastLogin: { type: Date, required: true },
 }, {
 	timestamps: true,

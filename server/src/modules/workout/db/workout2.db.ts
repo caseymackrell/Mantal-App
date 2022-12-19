@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { UserDocument } from '../../user/db/user.db'
 
 export interface WorkoutDocument extends mongoose.Document {
+    push(newWorkout: WorkoutDocument & Required<{ _id: string; }>): unknown;
     _id: string
     createdAt: Date;
     updatedAt: Date;
@@ -21,7 +22,7 @@ const WorkoutSchema = new mongoose.Schema({
 	musclesTargeted: { type: String },
 	workoutLevel: { type: String, enum: ['beginner', 'intermediate', 'advanced'] },
 	workoutType: { type: String },
-	user: { type: String, required: true },
+	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 	workout: {
 		group: [
 			{
