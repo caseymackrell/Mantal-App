@@ -27,20 +27,23 @@ export const verifySmsCode = async (req: Request, res: Response) => {
 		if (status !== 'approved') {
 			return res.status(400).send({ error: 'Invalid OTP' })
 		} else {
+			let userId: string
 			const existing = await UserModel.findOne({ phone })
 			if (existing) {
 				existing.lastLogin = new Date()
 				await existing.save()
+				userId = existing._id
 			} else {
-				await UserModel.create({
+				const newUser = await UserModel.create({
 					phone,
 					lastLogin: new Date(),
 				})
+				userId = newUser.id
 			}
 			return response({
 				res,
 				data: {
-					token: await encodeJwtToken({ phone }, TokenTypes.AUTH),
+					token: await encodeJwtToken({ _id: userId }, TokenTypes.AUTH),
 				},
 			})
 		}
@@ -50,30 +53,47 @@ export const verifySmsCode = async (req: Request, res: Response) => {
 	}
 }
 
-export const getUser = async (req: Request, res: Response) => {
+export const getUser = async (req: AuthenticatedRequest, res: Response) => {
 	try {
-		const { user } = req as AuthenticatedRequest
-		const data = await UserModel
-			.findOne({ phone: user.phone })
-		return response({ res, data })
+		return response({ res, data: req.user })
 	} catch (error) {
 		console.error(error)
 		return response({ res, status: 500, error })
 	}
 }
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async ({ user, body }: AuthenticatedRequest, res: Response) => {
 	try {
-		const { user, body } = req as AuthenticatedRequest
-		const data = await UserModel
-			.findOne({ phone: user.phone })
-		if (data) {
-			data.username = body.username
-			await data.save()
-			return response({ res, data })
-		}
+		// Check if username exists, if so return friendly erro
+		user.username = body.username
+		await user.save()
+		return response({ res, data: user })
 	} catch (error) {
 		console.error(error)
 		return response({ res, status: 500, error })
 	}
 }
+
+export const followUser = async (req: AuthenticatedRequest, res: Response) => {
+	try {
+		// Find the user to be followed
+		const userToFollow = await UserModel.findById(req.params.id)
+
+		if (!userToFollow) {
+			throw new Error('User does not exist')
+		}
+
+		// Add the user to the current user's list of followers
+		req.user.following.push(userToFollow._id)
+		await req.user.save()
+
+		// Add the current user to the user to be followed's list of followers
+		userToFollow.followers.push(req.user._id)
+		await userToFollow.save()
+
+		return response({ res, data: 'Successfully followed user' })
+	} catch (error) {
+		return response({ res, error })
+	}
+}
+

@@ -11,7 +11,7 @@ export interface UserDocument extends mongoose.Document {
     updatedAt: Date;
     workouts: WorkoutDocument;
     comments: CommentDocument;
-    follower: Array<string>;
+    followers: Array<string>;
     following: Array<string>;
 }
 
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
 		{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' },
 	],
 	followers: [{ type: Array<string> }],
-	follwing: [{ type: Array<string> }],
+	following: [{ type: Array<string> }],
 	lastLogin: { type: Date, required: true },
 }, {
 	timestamps: true,

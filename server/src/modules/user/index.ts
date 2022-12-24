@@ -24,10 +24,10 @@ userRouter.use(authMiddleware)
 
 userRouter.get(
 	'/',
-	getUser
+	getUser as any
 )
 
 userRouter.patch(
 	'/',
-	updateUser
+	updateUser as any
 )

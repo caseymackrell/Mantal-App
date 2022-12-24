@@ -2,12 +2,21 @@ import { Exercise } from '../db/exercise.db'
 import { Request, Response } from 'express'
 
 export const createExercise = async (req: Request, res: Response) => {
-	const newExercise = new Exercise(req.body)
+	const exercises = req.body
 
-	try {
-		const savedExercise = await newExercise.save()
-		res.status(200).json(savedExercise)
-	} catch (error) {
-		res.status(500).json(error)
-	}
+	exercises.forEach((exercise: { exerciseName: string; muscleGroup: string; level: string; equipment: string }) => {
+		const newExercise = new Exercise({
+			exerciseName: exercise.exerciseName,
+			muscleGroup: exercise.muscleGroup,
+			level: exercise.level,
+			equipment: exercise.equipment,
+		})
+
+		newExercise.save((err, exercise) => {
+			if (err) {
+				return res.send(err)
+			}
+			console.log(exercise)
+		})
+	})
 }
