@@ -23,7 +23,7 @@ workoutRouter.get(
 )
 
 workoutRouter.get(
-	'/feed',
+	'/',
 	getWorkoutFeed as any
 )
 

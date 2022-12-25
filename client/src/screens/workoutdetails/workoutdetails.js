@@ -4,7 +4,7 @@ import { AntDesign, MaterialIcons, Entypo } from '@expo/vector-icons';
 let iconHeight = 26;
 let iconWidth
 
-const StartWorkoutScreen = () => {
+const WorkoutDetails = () => {
     return (
         <SafeAreaView style={styles.appContainer}>
 
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default StartWorkoutScreen;
+export default WorkoutDetails;

@@ -9,8 +9,13 @@ import ProfileScreen from '../screens/profile/profile';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Entypo, FontAwesome, Ionicons } from '@expo/vector-icons'; 
 import StartWorkoutScreen from '../screens/startworkout/startworkout';
+import WorkoutDetails from '../screens/workoutdetails/workoutdetails';
 
 const Tab = createBottomTabNavigator();
+const homestack = createNativeStackNavigator({
+  home: {screen: HomeScreen},
+  WorkoutDetails: {screen: WorkoutDetails}
+})
 
 
 

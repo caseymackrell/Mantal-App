@@ -1,13 +1,130 @@
-import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView, SafeAreaView, FlatList } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { AntDesign, MaterialIcons, Entypo } from '@expo/vector-icons';
-let iconHeight = 26;
-let iconWidth
+const workouts = [
+{
+    _id: "1",
+    workoutName: "Chest and Back",
+    workoutDiscription: "This workout will help strengthen both the chest and back",
+    musclesTargeted: "Chest, Back",
+    workoutLevel: "beginner",
+    workoutType: "bulking",
+    user: "casey_mackrell",
+    workout: {
+        group: [
+            {
+                exercises: [
+                    {
+                        exercise: "63a6037670d9c26037879920",
+                        sets: [
+                            {
+                                setNum: 1,
+                                reps: 10,
+                                weight: 135,
+                                _id: "63a762c271efb3731311cf99"
+                            },
+                            {
+                                setNum: 2,
+                                reps: 8,
+                                weight: 185,
+                                _id: "63a762c271efb3731311cf9a"
+                            },
+                            {
+                                setNum: 3,
+                                reps: 8,
+                                weight: 185,
+                                _id: "63a762c271efb3731311cf9b"
+                            }
+                        ],
+                        _id: "63a762c271efb3731311cf98"
+                    },
+                    {
+                        sets: [
+                            {
+                                setNum: 1,
+                                reps: 10,
+                                weight: 100,
+                                _id: "63a762c271efb3731311cf9d"
+                            },
+                            {
+                                setNum: 2,
+                                reps: 8,
+                                weight: 130,
+                                _id: "63a762c271efb3731311cf9e"
+                            },
+                            {
+                                setNum: 3,
+                                reps: 8,
+                                weight: 130,
+                                _id: "63a762c271efb3731311cf9f"
+                            }
+                        ],
+                        _id: "63a762c271efb3731311cf9c"
+                    }
+                ],
+                _id: "63a762c271efb3731311cf97"
+            }
+        ]
+    },
+    "createdAt": "2022-12-24T20:36:18.072Z",
+    "updatedAt": "2022-12-24T20:36:18.072Z",
+    "__v": 0
+},
+{
+    _id: "2",
+    workoutName: "Ultimate Leg Workout",
+    workoutDiscription: "This workout will help strengthen both the chest and back",
+    musclesTargeted: "Chest, Back",
+    workoutLevel: "beginner",
+    workoutType: "bulking",
+    user: "conor_mackrell",
+},
+{
+    _id: "3",
+    workoutName: "Arm Blaster",
+    workoutDiscription: "This workout will help strengthen both the chest and back",
+    musclesTargeted: "Chest, Back",
+    workoutLevel: "beginner",
+    workoutType: "bulking",
+    user: "torrey_leonard",
+}
+]
+
+const workoutName = ({item, index, navigation}) => {
+    // Use the item prop to access the relevant data from the workouts array
+    const { workoutName, workoutDiscription, musclesTargeted, user } = item;
+
+    return (
+
+        <TouchableOpacity>
+        <View style={{backgroundColor: '#1499C3', flex: 1, marginVertical: 10, paddingBottom: 50, paddingTop: 35}}>
+            <Text style={{color: 'black', fontSize: 20, marginLeft: 10,}}>{user}</Text>
+
+            <View style={{backgroundColor: 'white', paddingVertical: 120, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+
+            {/* Render the workout name, description, and targeted muscles */}
+            <Text style={{color: 'black'}}>{workoutName}</Text>
+            <Text style={{color: 'black'}}>{workoutDiscription}</Text>
+            <Text style={{color: 'black'}}>{musclesTargeted}</Text>
+           
+        </View>
+         
+        </View>
+        </TouchableOpacity>
+    );
+}
 
 const HomeScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.appContainer}>
-
+            <FlatList style={styles.flatlist}
+                // Set the data prop to the workouts array
+                data={workouts}
+                // Set the renderItem prop to the workoutName function
+                renderItem={workoutName}
+                // Add a keyExtractor prop to specify a unique key for each item in the list
+                keyExtractor={(item) => item._id}
+            />
         </SafeAreaView>
       );
 }
@@ -16,60 +133,8 @@ const styles = StyleSheet.create({
     appContainer: {
      height: "100%",
      width: "100%",
-      backgroundColor: '#2C2C2C',
-     
-      
-    },
-    bottomNavContainer: {
-        position: 'absolute',
-        alignItems: 'flex-end',
-        bottom: 1
-
-    },
-    bottomNavBar: {
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        width: '100%',
-        height: '100%',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        paddingVertical: 10,
-        marginBottom: 15
-    },
-    topNavBar: {
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        width: '80%',
-        height: '100%',
-        justifyContent: 'space-between',
-        marginTop: 50,
-        alignItems: 'center'
-    },
-    topNavContainer: {
-        position: 'absolute',
-        top: 1,
-        alignContent: 'space-between'
-
-    },
-    iconBehave: {
-        padding: 14
-    },
-    registerButton: {
-        backgroundColor: '#EAAA6F',
-        paddingVertical: 3,
-        borderColor: '#EAAA6F',
-        borderWidth: 2,
-        borderRadius: 10,
-        paddingHorizontal: 2,
-        marginRight: 20
-      },
-      feedContainer:{
-        backgroundColor: 'blue',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        marginTop: 85
-      }
+      backgroundColor: '#2C2C2C',  
+    }
     
   });
 

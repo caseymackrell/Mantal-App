@@ -75,10 +75,10 @@ export const copyWorkout = async (req: AuthenticatedRequest, res: Response) => {
 
 export const getWorkoutFeed = async (req: AuthenticatedRequest, res: Response) => {
 	try {
-		const pageNumber = parseInt(String(req.query.pageNumber)) || 0
-		const limit = parseInt(String(req.query.limit)) || 12
+		const pageNumber = parseInt(req.query.pageNumber as string) || 0
+		const limit = parseInt(req.query.limit as string) || 12
 		const result = {} as any
-		const totalWorkouts = await Workout.countDocuments().exec()
+		const totalWorkouts = await Workout.countDocuments()
 		const startIndex = pageNumber * limit
 		const endIndex = (pageNumber + 1) * limit
 		result.totalWorkouts = totalWorkouts
@@ -88,16 +88,16 @@ export const getWorkoutFeed = async (req: AuthenticatedRequest, res: Response) =
 				limit: limit,
 			}
 		}
-		if (endIndex < (await Workout.countDocuments().exec())) {
+		if (endIndex < totalWorkouts) {
 			result.next = {
 				pageNumber: pageNumber + 1,
 				limit: limit,
 			}
 		}
 		result.data = await Workout.find()
-			.sort('-_id')
-			.skip(startIndex)
+			.sort('-createdAt')
 			.limit(limit)
+			.skip(startIndex)
 			.exec()
 		result.rowsPerPage = limit
 		return res.json({ msg: 'Workouts Fetched successfully', data: result })
