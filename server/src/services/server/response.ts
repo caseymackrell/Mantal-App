@@ -15,7 +15,7 @@ const response = ({
 	error = null,
 }: args) => {
 	try {
-		logger.debug(`[Response] ${res.req.method} ${res.req.originalUrl}`)
+		logger.info(`[Response] ${res.req.method} ${res.req.originalUrl}`)
 		if (error) {
 			logger.error(`[Response] ${res.req.method} ${res.req.originalUrl} | ${JSON.stringify(error)}`)
 		}

@@ -65,7 +65,6 @@ const updateExercise = (index, key, value) => {
       
       <TextInput
         value={exercise.sets}
-        placeholder={'sets'}
         onChangeText={(value) => updateExercise(index, 'sets', value)}
       />
       <TextInput
@@ -112,6 +111,7 @@ const styles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
+      backgroundColor: 'blue',
       paddingHorizontal: 40
     },
     startWorkout: {
@@ -129,26 +129,27 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       marginBottom: 65,
       paddingVertical: 2,
-      paddingHorizontal: 1,
+      paddingHorizontal: 50,
       paddingLeft: 2,
       borderColor: 'white',
       borderWidth: 2,
       borderRadius: 10,
-      display: 'flex'
+      display: 'flex',
+      flexDirection: 'row'
     },
     textInputContainer: {
       display: 'flex',
-      justifyContent: 'space-between',
       flexDirection: 'row',
-      paddingHorizontal: 2,
-      marginTop: 10,
-      backgroundColor: 'red'
+      justifyContent: 'space-between',
+      backgroundColor: 'blue',
+      paddingHorizontal: 27,
+      marginTop: 10
 
     },
     createWorkout: {
       display: 'flex',
       marginTop: 100,
-      backgroundColor: 'grey',
+      backgroundColor: 'white',
       display: 'flex'
     }
 })

@@ -18,12 +18,12 @@ userRouter.post(
 	verifySmsCode
 )
 
-userRouter.use(authMiddleware)
+// userRouter.use(authMiddleware)
 
 // Authenticated requests
 
-userRouter.get(
-	'/',
+userRouter.post(
+	'/profile',
 	getUser as any
 )
 

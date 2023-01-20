@@ -7,9 +7,13 @@ const app = express()
 
 // Pre-route middleware
 app.use(express.json())
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+const corsOptions = {
+	origin: 'http://localhost:3001',
+	optionsSuccessStatus: 200,
+}
+app.use(cors(corsOptions))
 app.use((req, _, next) => {
-	logger.debug(`[Request] ${req.method} ${req.path}`)
+	logger.info(`[Request] ${req.method} ${req.path}`)
 	return next()
 })
 

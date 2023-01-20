@@ -12,10 +12,6 @@ import StartWorkoutScreen from '../screens/startworkout/startworkout';
 import WorkoutDetails from '../screens/workoutdetails/workoutdetails';
 
 const Tab = createBottomTabNavigator();
-const homestack = createNativeStackNavigator({
-  home: {screen: HomeScreen},
-  WorkoutDetails: {screen: WorkoutDetails}
-})
 
 
 

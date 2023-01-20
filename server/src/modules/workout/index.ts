@@ -5,7 +5,7 @@ import {
 } from './api/workout.api'
 
 export const workoutRouter = Router()
-workoutRouter.use(authMiddleware)
+// workoutRouter.use(authMiddleware)
 
 workoutRouter.post(
 	'/',
@@ -13,12 +13,12 @@ workoutRouter.post(
 )
 
 workoutRouter.post(
-	'/:workoutId/copy',
+	'/:id/copy',
 	copyWorkout as any
 )
 
 workoutRouter.get(
-	'/:workoutId',
+	'/:id',
 	getWorkout as any
 )
 

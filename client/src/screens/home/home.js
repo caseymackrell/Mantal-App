@@ -73,17 +73,17 @@ const workouts = [
 {
     _id: "2",
     workoutName: "Ultimate Leg Workout",
-    workoutDiscription: "This workout will help strengthen both the chest and back",
-    musclesTargeted: "Chest, Back",
-    workoutLevel: "beginner",
+    workoutDiscription: "This workout will have you needing a wheelchair",
+    musclesTargeted: "quads, hamstrings",
+    workoutLevel: "advanced",
     workoutType: "bulking",
     user: "conor_mackrell",
 },
 {
     _id: "3",
     workoutName: "Arm Blaster",
-    workoutDiscription: "This workout will help strengthen both the chest and back",
-    musclesTargeted: "Chest, Back",
+    workoutDiscription: "This is a simple and short workout to strengthen your arms ",
+    musclesTargeted: "biceps, triceps",
     workoutLevel: "beginner",
     workoutType: "bulking",
     user: "torrey_leonard",
@@ -92,7 +92,7 @@ const workouts = [
 
 const workoutName = ({item, index, navigation}) => {
     // Use the item prop to access the relevant data from the workouts array
-    const { workoutName, workoutDiscription, musclesTargeted, user } = item;
+    const { workoutName, workoutDiscription, musclesTargeted, user, workoutLevel } = item;
 
     return (
 
@@ -100,13 +100,21 @@ const workoutName = ({item, index, navigation}) => {
         <View style={{backgroundColor: '#1499C3', flex: 1, marginVertical: 10, paddingBottom: 50, paddingTop: 35}}>
             <Text style={{color: 'black', fontSize: 20, marginLeft: 10,}}>{user}</Text>
 
-            <View style={{backgroundColor: 'white', paddingVertical: 120, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{backgroundColor: 'white', paddingVertical: 120, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
 
             {/* Render the workout name, description, and targeted muscles */}
-            <Text style={{color: 'black'}}>{workoutName}</Text>
-            <Text style={{color: 'black'}}>{workoutDiscription}</Text>
-            <Text style={{color: 'black'}}>{musclesTargeted}</Text>
-           
+                <View>
+                <Text style={{color: 'black', fontSize: 40, paddingBottom: 20}}>{workoutName}</Text>
+                </View>
+                <View>
+                <Text style={{color: 'black'}}>{musclesTargeted}</Text>
+                </View>
+                <View>
+                <Text style={{color: 'black'}}>{workoutLevel}</Text>
+                </View>
+                <View>
+                <Text style={{color: 'black'}}>{workoutDiscription}</Text>
+                </View>
         </View>
          
         </View>

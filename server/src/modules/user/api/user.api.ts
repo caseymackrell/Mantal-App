@@ -53,12 +53,16 @@ export const verifySmsCode = async (req: Request, res: Response) => {
 	}
 }
 
-export const getUser = async (req: AuthenticatedRequest, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
 	try {
-		return response({ res, data: req.user })
+		const { phoneNumber } = req.body
+		const user = await UserModel.findOne({ phone: phoneNumber }, { password: 0 })
+		if (!user) {
+			return res.status(404).json({ error: 'user not found' })
+		} else {return res.status(200).json({ data: user })}
 	} catch (error) {
 		console.error(error)
-		return response({ res, status: 500, error })
+		return res.status(500).json({ error })
 	}
 }
 

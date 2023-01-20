@@ -8,7 +8,7 @@ import * as _ from 'lodash'
 export const createWorkout = async (req: AuthenticatedRequest, res: Response) => {
 	// Create a new workout
 	const newWorkout = new Workout({
-		user: req.user._id,
+		user: req.body._id,
 		workoutName: req.body.workoutName,
 		workoutDiscription: req.body.workoutDiscription,
 		musclesTargeted: req.body.musclesTargeted,
@@ -32,8 +32,8 @@ export const createWorkout = async (req: AuthenticatedRequest, res: Response) =>
 
 export const getWorkout = async (req: AuthenticatedRequest, res: Response) => {
 	try {
-		const { workoutId } = req.params
-		const data = await Workout.findOne({ _id: workoutId })
+		const { id } = req.params
+		const data = await Workout.findOne({ _id: id })
 		return response({ res, data })
 	} catch (error) {
 		console.error(error)
@@ -76,7 +76,7 @@ export const copyWorkout = async (req: AuthenticatedRequest, res: Response) => {
 export const getWorkoutFeed = async (req: AuthenticatedRequest, res: Response) => {
 	try {
 		const pageNumber = parseInt(req.query.pageNumber as string) || 0
-		const limit = parseInt(req.query.limit as string) || 12
+		const limit = parseInt(req.query.limit as string) || 20
 		const result = {} as any
 		const totalWorkouts = await Workout.countDocuments()
 		const startIndex = pageNumber * limit
@@ -95,9 +95,10 @@ export const getWorkoutFeed = async (req: AuthenticatedRequest, res: Response) =
 			}
 		}
 		result.data = await Workout.find()
-			.sort('-createdAt')
+			.sort({ createdAt: -1 })
 			.limit(limit)
 			.skip(startIndex)
+			.populate('user', 'username')
 			.exec()
 		result.rowsPerPage = limit
 		return res.json({ msg: 'Workouts Fetched successfully', data: result })
