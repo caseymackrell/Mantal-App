@@ -66,6 +66,20 @@ export const getUser = async (req: Request, res: Response) => {
 	}
 }
 
+export const getAllUsers = async (req: Request, res: Response) => {
+	try {
+		const users = await UserModel.find({}, { password: 0 })
+		if (!users) {
+			return res.status(404).json({ error: 'No users found' })
+		} else {
+			return res.status(200).json({ data: users })
+		}
+	} catch (error) {
+		console.error(error)
+		return res.status(500).json({ error })
+	}
+}
+
 export const updateUser = async ({ user, body }: AuthenticatedRequest, res: Response) => {
 	try {
 		// Check if username exists, if so return friendly erro

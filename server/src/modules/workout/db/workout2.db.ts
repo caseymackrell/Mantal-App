@@ -1,5 +1,6 @@
 import mongoose, { Types } from 'mongoose'
-import { ExerciseType } from '../../exercises/db/exercise.db'
+import { string } from 'zod'
+// import { ExerciseType } from '../../exercises/db/exercise.db'
 import { UserDocument } from '../../user/db/user.db'
 
 export interface WorkoutDocument extends mongoose.Document {
@@ -14,25 +15,44 @@ export interface WorkoutDocument extends mongoose.Document {
     workoutLevel: string
     workoutType: string
     workout: string|number|Array<string>;
-	exercise: ExerciseType
+	exercise: string
+	recipient: string
 }
 
 const WorkoutSchema = new mongoose.Schema({
 	_id: { type: mongoose.Types.ObjectId, required: true, auto: true },
+	type: { type: String, enum: ['post', 'scheduled'], required: true },
 	workoutName: { type: String, required: true },
 	workoutDiscription: { type: String },
 	musclesTargeted: { type: String },
 	workoutLevel: { type: String, enum: ['beginner', 'intermediate', 'advanced'] },
 	workoutType: { type: String },
 	user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+	scheduledDate: {
+		type: Date,
+		validate: function(value: any, doc: { type: string; }) {
+			if (doc.type === 'scheduled' && !value) {
+				throw new Error('Scheduled date is required for scheduled workout')
+			}
+			return true
+		},
+		recipient: {
+			type: String,
+			validate: function(value: any, doc: { type: string; }) {
+				if (doc.type === 'scheduled' && !value) {
+					throw new Error('Recipient is required for scheduled workout')
+				}
+				return true
+			},
+		},
+	},
 	workout: {
 		group: [
 			{
 				exercises: [
 					{
 						exercise: {
-							type: mongoose.Schema.Types.ObjectId,
-							ref: 'Exercise',
+							type: String,
 						},
 						sets: [
 							{

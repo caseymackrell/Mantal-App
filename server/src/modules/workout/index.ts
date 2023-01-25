@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { authMiddleware } from '../../services/server/middleware/auth.middleware'
 import {
-	copyWorkout, createWorkout, getWorkout, getWorkoutFeed,
+	copyWorkout, createWorkout, getWorkout, getWorkoutFeed, sendWorkout,
 } from './api/workout.api'
 
 export const workoutRouter = Router()
@@ -25,6 +25,11 @@ workoutRouter.get(
 workoutRouter.get(
 	'/',
 	getWorkoutFeed as any
+)
+
+workoutRouter.post(
+	'/sendWorkout',
+	sendWorkout as any
 )
 
 // workoutRouter.patch(

@@ -1,5 +1,5 @@
-import { Request, Response } from 'express'
-import { Workout, WorkoutDocument } from '../db/workout2.db'
+import { Response } from 'express'
+import { Workout } from '../db/workout2.db'
 import UserModel from '../../user/db/user.db'
 import { AuthenticatedRequest } from '../../../../types'
 import response from '../../../services/server/response'
@@ -8,7 +8,7 @@ import * as _ from 'lodash'
 export const createWorkout = async (req: AuthenticatedRequest, res: Response) => {
 	// Create a new workout
 	const newWorkout = new Workout({
-		user: req.body._id,
+		user: req.user._id,
 		workoutName: req.body.workoutName,
 		workoutDiscription: req.body.workoutDiscription,
 		musclesTargeted: req.body.musclesTargeted,
@@ -105,5 +105,40 @@ export const getWorkoutFeed = async (req: AuthenticatedRequest, res: Response) =
 	} catch (error) {
 		console.log(error)
 		return res.status(500).json({ msg: 'Sorry, something went wrong' })
+	}
+}
+
+export const sendWorkout = async (req: AuthenticatedRequest, res: Response) => {
+	try {
+		// Check if the recipient's user id and scheduled date are present in the request body
+		if (!req.body.recipientId || !req.body.scheduledDate) {
+			return res.status(400).json({ error: 'Recipient user id or scheduled date is missing' })
+		}
+		// Create a new workout
+		const newWorkout = new Workout({
+			user: req.body.user,
+			recipient: req.body.recipient,
+			scheduledDate: req.body.scheduledDate,
+			workoutName: req.body.workoutName,
+			workoutDiscription: req.body.workoutDiscription,
+			musclesTargeted: req.body.musclesTargeted,
+			workoutLevel: req.body.workoutLevel,
+			workoutType: req.body.workoutType,
+			workout: req.body.workout,
+		})
+		// Save the workout
+		await newWorkout.save()
+		// Find the recipient user
+		const recipient = await UserModel.findById(req.body.recipientId)
+		if (recipient) {
+			recipient.scheduledWorkouts.push({ workoutId: newWorkout._id, scheduledDate: req.body.scheduledDate })
+			await recipient.save()
+			res.json(newWorkout)
+		} else {
+			res.status(404).json({ error: 'Recipient user not found' })
+		}
+	} catch (err) {
+		console.error(err)
+		res.status(500).json({ error: 'Failed to send workout' })
 	}
 }

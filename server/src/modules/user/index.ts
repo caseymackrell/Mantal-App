@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { authMiddleware } from '../../services/server/middleware/auth.middleware'
 import {
+	getAllUsers,
 	getUser, sendSmsCode, updateUser, verifySmsCode,
 } from './api/user.api'
 
@@ -30,4 +31,9 @@ userRouter.post(
 userRouter.patch(
 	'/',
 	updateUser as any
+)
+
+userRouter.get(
+	'/users',
+	getAllUsers as any
 )

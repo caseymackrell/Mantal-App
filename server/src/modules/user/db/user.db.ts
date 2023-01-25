@@ -13,6 +13,7 @@ export interface UserDocument extends mongoose.Document {
     comments: CommentDocument;
     followers: Array<string>;
     following: Array<string>;
+	scheduledWorkouts: Array<{workoutId: mongoose.Types.ObjectId, scheduledDate: Date}>,
 }
 
 const userSchema = new mongoose.Schema({
@@ -20,8 +21,13 @@ const userSchema = new mongoose.Schema({
 	username: { type: String, required: true, unique: true, lowercase: true },
 	phone: { type: String, required: true, index: true, unique: true },
 	workouts: [
-
 		{ type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPost' },
+	],
+	scheduledWorkouts: [
+		{
+			workoutId: { type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutPost' },
+			scheduledDate: { type: Date, required: true },
+		},
 	],
 	comments: [
 		{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' },
